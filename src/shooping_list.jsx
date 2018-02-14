@@ -20,7 +20,7 @@ export default class ShoopingList extends React.Component{
     updateBought = (count,index) => {
         var newItems = this.state.items.slice();
         var item = newItems[index];
-        item.qnt-= count;
+        item.qnt = item.qnt - count <= 0 ? 0 : item.qnt - count;
         this.setState((oldState) => ({
             items: newItems
         }));
@@ -73,7 +73,7 @@ export default class ShoopingList extends React.Component{
                         <tr>
                             <th>Image</th>
                             <th>Name</th>
-                            <th>Quantity</th>
+                            <th>Left To Bey</th>
                             <th>Bought</th>
                             <th>Bought Submit</th>
                             <th>Delete</th>
@@ -99,15 +99,19 @@ class ItemRow extends React.Component{
     }
     deleteItem = (e) =>{
         this.props.deleteItem(this.props.index);
-    } 
+    }
+    lineTroughStyle = {
+        textDecoration: 'line-through'
+    }
     render(){
         return(
             <tr>
+                
                 <td><img style={{width: 50,height: 50}} src={this.props.img_url} /></td>
-                <td>{this.props.name}</td>
+                <td style={this.props.qnt == 0 ? this.lineTroughStyle : {}}>{this.props.name}</td>
                 <td>{this.props.qnt}</td>
-                <td><input min="0" ref={(bought_count) => {this.bought_count = bought_count}} type="number"/></td>
-                <td><button onClick={this.bought}>Bought Submit</button></td>
+                <td><input min="0" ref={(bought_count) => {this.bought_count = bought_count}} disabled={this.props.qnt == 0} type="number"/></td>
+                <td><button disabled={this.props.qnt == 0} onClick={this.bought}>Bought Submit</button></td>
                 <td><button onClick={this.deleteItem}>Delete</button></td>
             </tr>
         )
