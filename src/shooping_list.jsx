@@ -7,7 +7,8 @@ export default class ShoopingList extends React.Component{
         super(props);
         this.state = {
             items: [],
-            imgSrc: ""
+            imgSrc: "",
+            updatedList: []
         }
     }
 
@@ -22,10 +23,37 @@ export default class ShoopingList extends React.Component{
         var item = newItems[index];
         item.qnt = item.qnt - count <= 0 ? 0 : item.qnt - count;
         this.setState((oldState) => ({
-            items: newItems
+            items: newItems,
+            updatedList: newItems
         }));
 
     }
+
+    searchChanged = (e) =>{
+        var searchText = e.target.value;
+        var updatedList = this.state.items;
+        updatedList = updatedList.filter(function(item){
+            return item.name.toLowerCase().search(
+                searchText.toLowerCase()) !== -1;
+          });
+          this.setState({updatedList: updatedList});
+    }
+
+    cbChecked = (e) => {
+        console.log(this.cdOnlyB.checked)
+        if(this.cdOnlyB.checked){
+            var updatedList = this.state.items;
+            updatedList = updatedList.filter(function(item){
+                return item.qnt == 0;
+            });
+            this.setState({updatedList: updatedList});
+        }
+        else{
+            this.setState((oldState) => ({updatedList: oldState.items}));
+        }
+        
+    }
+
 
     onImgChange = (e) => {
         var file = this.itemimg.files[0];
@@ -45,7 +73,7 @@ export default class ShoopingList extends React.Component{
             qnt: this.itemqnt.value, 
             img_url: this.state.imgSrc 
         }
-        this.setState((oldState) => ({items: [...oldState.items,newItem],imgSrc: ''}));
+        this.setState((oldState) => ({items: [...oldState.items,newItem],imgSrc: '',updatedList: [...oldState.items,newItem]}));
         this.itemimg.value = '';
         this.itemname.value = '';
         this.itemqnt.value = '';
@@ -68,6 +96,14 @@ export default class ShoopingList extends React.Component{
                 </div>
 
                 <button onClick={this.addItem}>Add</button>
+                <div>
+                    <label htmlFor="cb_only_b">Display Only Fully Bought Items</label>
+                    <input onChange={this.cbChecked} ref={(cb_only_b) => {this.cdOnlyB = cb_only_b}} type="checkbox" id="cb_only_b"/>
+                </div>
+                <div>
+                    <label htmlFor="search_by_name">Search By Name</label>
+                    <input onChange={this.searchChanged} type="text" id="search_by_name"/>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -80,7 +116,7 @@ export default class ShoopingList extends React.Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.items.map((item,idx) =>(
+                        {this.state.updatedList.map((item,idx) =>(
                             <ItemRow updateBought={this.updateBought} deleteItem={this.deleteItem} index={idx} key={idx} name={item.name} qnt={item.qnt} img_url={item.img_url} />
                         ))}
                     </tbody>
