@@ -6,22 +6,25 @@ export default class ClicksTester extends React.Component{
         this.state = {
             message: 'לחץ מהר!',
             lastClick: 0,
+            color: 'green'
         }
     }
 
     click = (e) => {
         var ts = e.timeStamp
         var interval = ts - this.state.lastClick;
-        this.setState((oldState) => {return {lastClick: ts}})
+        this.setState((oldState) => {return {lastClick: ts}});
+        var mes = ''; 
+        var col = '';
         if(interval<200){
-            console.log('fast');
-            this.setState((oldState) => {return {message: 'לא כל כך מהר...'}});
+            mes = 'לא כל כך מהר...';
+            col = 'red'
         }
         else{
-            console.log('not fast')
-            this.setState((oldState) => {return {message: 'מהר יותר'}});
+            mes = 'מהר יותר';
+            col = 'green'
         }
-        
+        this.setState((oldState) => {return {message: mes,color: col}});
     }
 
     render(){
@@ -29,7 +32,17 @@ export default class ClicksTester extends React.Component{
             <div>
                 <button onClick={this.click}>Click Fast</button>
                 <p>{this.state.message}</p>
+                <ClicksColor color={this.state.color}/>            
             </div>
+        )
+    }
+}
+
+class ClicksColor extends React.Component{
+
+    render(){
+        return(
+            <div style={{background: this.props.color,width: 100,height: 100}}></div>
         )
     }
 }
