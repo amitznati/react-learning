@@ -5,26 +5,58 @@ export default class ClicksTester extends React.Component{
         super(props);
         this.state = {
             message: 'לחץ מהר!',
-            lastClick: 0,
+            clicks: 0,
             color: 'green'
         }
     }
 
-    click = (e) => {
-        var ts = e.timeStamp
-        var interval = ts - this.state.lastClick;
-        this.setState((oldState) => {return {lastClick: ts}});
-        var mes = ''; 
+    componentWillMount(){
+      // this.timer = setInterval(this.countClicks, 1000);
+    }
+
+    componentWillUnmount(){
+        if(this.timer)
+            clearInterval(this.timer);
+    }
+
+    countClicks = () => {
+        this.setState((oldState) => {return {clicks: 0}});
+        this.refreshData();
+    }
+
+    refreshData =() =>{
+        var mes = this.state.clicks; 
         var col = '';
-        if(interval<200){
-            mes = 'לא כל כך מהר...';
+        if(this.state.clicks > 3){
+            mes +=  'לא כל כך מהר...';
             col = 'red'
         }
-        else{
-            mes = 'מהר יותר';
+        else {
+            mes += 'מהר יותר';
             col = 'green'
+            if(this.state.clicks == 0){
+                this.stopCount();
+            }
         }
+       
+
         this.setState((oldState) => {return {message: mes,color: col}});
+    }
+
+    startCount = () =>{
+        if(!this.timer)
+            this.timer = setInterval(this.countClicks, 1000);
+    }
+
+    stopCount = () =>{
+        clearInterval(this.timer);
+        this.timer = false;
+    }
+
+    click = (e) => {
+        this.startCount();
+        this.setState((oldState) => {return {clicks: oldState.clicks +1}});
+        this.refreshData();
     }
 
     render(){

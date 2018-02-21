@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ClicksTester from './clicks_tester';
+import FocusChange from './focus_change';
 
 
 
@@ -11,7 +11,7 @@ class HelloWorld extends React.Component {
     return (<div>
             <h1>Hello World</h1>
             <div>
-            <ClicksTester />
+            <FocusChange />
             </div>
             </div>
           )
