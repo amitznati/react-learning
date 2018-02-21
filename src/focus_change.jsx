@@ -23,31 +23,41 @@ class BoxesRow extends React.Component{
         super(props);
         this.state = {
             clickedText: '',
-            selectedIndex: 0
+            selectedIndex: 0,
         }
     }
 
-    boxClicked = (idx) => {
-        this.changePosition(idx,'<');
+    boxClicked = (key) => {
+        this.setState((oldState) => {return {selectedIndex: key}});
     }
 
-    changePosition = (idx,selectedKey) => {
-        this.setState((oldState) => {return {clickedText: selectedKey,selectedIndex: idx}});
-    }
+    // boxKeyPressed = (key,value) => {
+    //     var newChildren = this.state.boxes.map(function(box, i) {
+    //         if(key === i){
+    //             box.text = value;
+    //         }
+    //     })
+
+    //     this.setState((oldState) => {return {boxes: newChildren,selectedIndex: oldState.selectedIndex + 1}})
+
+    // }
 
     render(){
         
-        var children = this.props.children.map(function(item, i) {
-            var isSelected = item.props.key === this.state.selectedIndex;
-            return React.cloneElement(item, {
-                isSelected: isSelected,
-                text: this.state.clickedText,
-                key: item.props.key
-            });
-        }, this);
+        // var children = this.props.children.map(function(item, i) {
+        //     var isSelected = item.props.key === this.state.selectedIndex;
+        //     return React.cloneElement(item, {
+        //         isSelected: isSelected,
+        //         text: this.state.clickedText,
+        //         key: item.props.key
+        //     });
+        // }, this);
         return(
             <div>
-                {children  }
+                <InputBox idx={1} isSelected={this.state.selectedIndex === 1} boxClicked={this.boxClicked} keyPressed={this.boxKeyPressed}/>
+                <InputBox idx={2} isSelected={this.state.selectedIndex === 2} boxClicked={this.boxClicked} keyPressed={this.boxKeyPressed}/>
+                <InputBox idx={3} isSelected={this.state.selectedIndex === 3} boxClicked={this.boxClicked} keyPressed={this.boxKeyPressed}/>
+                <InputBox idx={4} isSelected={this.state.selectedIndex === 4} boxClicked={this.boxClicked} keyPressed={this.boxKeyPressed}/>
             </div>
         )
     }
@@ -60,19 +70,20 @@ class InputBox extends React.Component{
     }
 
     onKeyPress = (e) => {
-        console.log(e.target.value)
+        var val = String.fromCharCode(e.which)
+        console.log(val)
     }
 
     render(){
         return(
-            <div onKeyPress={this.onKeyPress} onClick={this.clicked} 
+            <div tabIndex={1} onKeyPress={this.onKeyPress} onClick={this.clicked} 
             style={{
                 width: 80,
                 height: 80,
                 textAlign: 'center',
                 fontSize: 30,
                 verticalAlign: 'center',
-                background: this.props.isSelected ? 'grey' : 'white',
+                background: this.props.isSelected ? 'rgba(0,50,50,0.5)' : 'white',
                 borderColor: 'gray',
                 borderWidth: 1,
                 borderStyle: 'solid',
