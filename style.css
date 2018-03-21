@@ -1,0 +1,15 @@
+.panel{
+    border: 1px solid gray;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 30px;
+    line-height: 80px;
+    text-align: center;
+}
+
+.selected{
+    background-color: #eee;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FocusChange from './focus_change';
+import BoxesRow from './boxes_row';
 
 
 
@@ -11,7 +11,7 @@ class HelloWorld extends React.Component {
     return (<div>
             <h1>Hello World</h1>
             <div>
-            <FocusChange />
+            <BoxesRow boxesCount={4} />
             </div>
             </div>
           )
