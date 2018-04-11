@@ -36,6 +36,7 @@
     "react-table": "^6.7.6",
     "tinycolor": "0.0.1",
     "tinycolor2": "^1.4.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "zoomove": "^1.2.1"
   }
 }

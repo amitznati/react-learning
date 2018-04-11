@@ -24,10 +24,9 @@ export default class BoxRow extends Component{
     }
 
     render(){
-        var boxes = this.getBoxes();
         return(
             <div>
-                {boxes}
+                {this.getBoxes()}
             </div>
         )
     }

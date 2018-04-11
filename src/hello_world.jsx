@@ -1,9 +1,6 @@
 import React from 'react';
 
-import BoxesRow from './boxes_row';
-
-
-
+import SWapi  from './swapi';
 
 class HelloWorld extends React.Component {
 
@@ -11,7 +8,7 @@ class HelloWorld extends React.Component {
     return (<div>
             <h1>Hello World</h1>
             <div>
-            <BoxesRow boxesCount={4} />
+            <SWapi />
             </div>
             </div>
           )

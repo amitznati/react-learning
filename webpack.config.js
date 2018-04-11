@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-
 const devBuild = process.env.NODE_ENV !== 'production';
 const nodeEnv = devBuild ? 'development' : 'production';
 
@@ -21,6 +20,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      jquery: "jquery/src/jquery"
+    }
   },  
   plugins: [
     new webpack.DefinePlugin({
@@ -60,6 +62,6 @@ module.exports = {
           }
         ]
       },
-    ]
+    ],
   },
 };
