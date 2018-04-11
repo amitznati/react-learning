@@ -1,5 +1,37 @@
 import React , { Component } from 'react';
 
+function randerJSON(object, props){
+    const keys = Object.keys(object);
+    return (
+        <div>
+                {
+                    keys.map((key) => {
+                        if(!Array.isArray(object[key]))
+                            return <p key={key}>{key + ': ' + object[key]}</p>
+                        else{
+                            return (<div key={key}>
+                                        <p>{key}</p>
+                                        <div>
+                                            <ul className="list-group list-group-flush">
+                                                {object[key].map( (item) => {
+                                                    return (
+                                                        <li key={item} className="list-group-item">
+                                                            <span>{item}  </span>
+                                                            { (item.includes('film') || item.includes('people')) && <button className="btn btn-info" onClick={ (e) => props.itemClick(item)}>Show</button>}
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
+                            )
+                        }
+                    })
+                }
+            </div>
+    )
+}
+
 export default class SWapi extends Component {
 
     constructor(props){
@@ -34,61 +66,20 @@ export default class SWapi extends Component {
 
 class Person extends Component {
 
-
     render(){
         const { person } = this.props;
         return (
-            <div>
-                <p>{person.name}</p>
-                <p>{person.height}</p>
-                <p>{person.mass}</p>
-                <p>{person.hair_color}</p>
-                <p>{person.skin_color}</p>
-                <p>{person.birth_year}</p>
-                <p>Films:</p>
-                <div>
-                    <ul>
-                        {person.films.map( (film) => {
-                            return (
-                                <li key={film}>
-                                    {film}
-                                    <button onClick={ (e) => this.props.itemClick(film)}>Click</button>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            </div>
+             randerJSON(person, this.props) 
         )
     }
 }
 
 class Film extends Component {
-
-
+    
     render(){
+        const { film }  = this.props;
         return (
-            <div>
-                <p>{this.props.film.title}</p>
-                <p>{this.props.film.episode_id}</p>
-                <p>{this.props.film.opening_crawl}</p>
-                <p>{this.props.film.director}</p>
-                <p>{this.props.film.producer}</p>
-                <p>{this.props.film.release_date}</p>
-                <p>Characters:</p>
-                <div>
-                    <ul>
-                        {this.props.film.characters.map(character => {
-                            return (
-                                <li key={character}>
-                                    {character}
-                                    <button onClick={ (e) => this.props.itemClick(character)}>Click</button>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            </div>
+            randerJSON(film, this.props) 
         )
     }
 }

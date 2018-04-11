@@ -5,7 +5,7 @@ import SWapi  from './swapi';
 class HelloWorld extends React.Component {
 
   render() {
-    return (<div>
+    return (<div className="container">
             <h1>Hello World</h1>
             <div>
             <SWapi />
